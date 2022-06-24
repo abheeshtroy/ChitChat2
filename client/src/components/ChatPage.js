@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./ChatPage.css";
 import io from "socket.io-client";
 
 
@@ -11,6 +10,9 @@ function ChatPage() {
 
 
   //if authentication sends back true then display everything below 
+
+
+  // const [user, setUser] = useState("");
   const [socketId, setSocketId] = useState("");
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState([]);
@@ -174,9 +176,7 @@ function ChatPage() {
               Send
             </button>
           </form>
-          <span className="logout">
-            <p>logout</p>
-        </span>
+          {/* <button className="logout">Logout</button> */}
         </>
       )}
     </>

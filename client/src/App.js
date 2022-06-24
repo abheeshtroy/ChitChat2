@@ -5,6 +5,7 @@ import {BrowserRouter, Routes , Route} from 'react-router-dom'
 import ChatPage from './components/ChatPage'
 import LogReg from './components/LogReg'
 
+import './components/App.css'
 
 
 function App() {

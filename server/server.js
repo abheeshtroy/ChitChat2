@@ -46,12 +46,12 @@ app.post('/register', (req, res) => {
   password = req.body.password;
   username = req.body.username
 
-  bcrypt.genSalt(10, async function(err, salt) {
+  bcrypt.genSalt(10, async function (err, salt) {
     await bcrypt.hash(password, salt, (err, hash) => {
       console.log(username)
       console.log(password)
       console.log(hash);
-      if(err){
+      if (err) {
         console.log(`an error occured bruh: ${err}`)
         return
       }
@@ -90,10 +90,10 @@ app.post('/login', (req, res) => {
               res.json({ message: "The login worked", status: true })
               logReg = true;
             }
-            else{
+            else {
               console.log(`boi another error`)
             }
-          });       
+          });
         }
       }
     })
@@ -109,68 +109,65 @@ app.post('/login', (req, res) => {
 
 
 
-if (logReg) {
-  io.on("connection", (socket) => {
-    console.log(`User connected: ${socket.id}`);
 
-    socket.emit("me", socket.id); // listens to me event
-    users.push(socket.id);
+io.on("connection", (socket) => {
+  console.log(`User connected: ${socket.id}`);
+  socket.emit("me", socket.id); // listens to me event
+  users.push(socket.id);
 
-    socket.broadcast.emit("updateUsers", users); // this should send the users array to all the clients that are connected to the server
-    // access on front end by listening for this event
+  socket.broadcast.emit("updateUsers", users); // this should send the users array to all the clients that are connected to the server
+  // access on front end by listening for this event
 
-    socket.on("disconnect", () => {
-      console.log(`User ${socket.id} disconnected.`);
-      users = users.filter((user) => user !== socket.id);
-      // console.log(users);
-      socket.broadcast.emit("updateUsers", users);
-      socket.disconnect();
-    });
+  socket.on("disconnect", () => {
+    console.log(`User ${socket.id} disconnected.`);
+    users = users.filter((user) => user !== socket.id);
+    // console.log(users);
+    socket.broadcast.emit("updateUsers", users);
+    socket.disconnect();
+  });
 
-    socket.emit("getAllUsers", users);
-    console.log(users);
+  socket.emit("getAllUsers", users);
+  console.log(users);
 
-
-
-    // Rooms
-    // frontend will emit create_room event
-    socket.on("create_room", () => {
-      const room = {
-        id: nanoid(7),
-        capacity: 10,
-        usersJoined: [socket.id],
-        chat: [],
-      };
-      socket.join(room);
-      socket.emit("get_room", room);
-      console.log("Room created: " + room.id);
-      rooms.push(room);
-
-      socket.broadcast.emit("updateRooms", rooms);
-    });
-
-    socket.on("join_room", (room) => {
-      socket.join(room.id);
-      console.log(`user ${socket.id} joined room: ${room.id}`);
-    });
-    socket.emit("getAllRooms", rooms);
+  // Rooms
+  // frontend will emit create_room event
+  socket.on("create_room", () => {
+    const room = {
+      id: nanoid(7), //room id is 7 charac alphanumeric generated through nanoid package
+      capacity: 10,
+      usersJoined: [socket.id],
+      chat: [],
+    };
+    socket.join(room);
+    socket.emit("get_room", room);
+    console.log("Room created: " + room.id);
+    rooms.push(room);
 
     socket.broadcast.emit("updateRooms", rooms);
-
-    socket.on("message", (payload) => {
-      console.log(`Message from ${socket.id} : ${payload.message}`);
-      rooms.map((room) => {
-        if (room.id === payload.room) {
-          singleChat = { message: payload.message, writer: payload.socketId };
-          room.chat.push(singleChat);
-          payload.chat = room.chat;
-        }
-      });
-
-      io.to(payload.room).emit("chat", payload);
-    });
   });
-}
+
+  socket.on("join_room", (room) => {
+    socket.join(room.id);
+    console.log(`user ${socket.id} joined room: ${room.id}`);
+  });
+  socket.emit("getAllRooms", rooms);
+
+  socket.broadcast.emit("updateRooms", rooms);
+
+  socket.on("message", (payload) => {
+    console.log(`Message from ${socket.id} : ${payload.message}`);
+    rooms.map((room) => {
+      if (room.id === payload.room) {
+        singleChat = { message: payload.message, writer: payload.socketId };
+        room.chat.push(singleChat);
+        payload.chat = room.chat;
+      }
+    });
+
+    io.to(payload.room).emit("chat", payload);
+  });
+});
+
 
 
 

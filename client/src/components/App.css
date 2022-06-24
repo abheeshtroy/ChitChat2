@@ -1,9 +1,12 @@
-* , button{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+  font-family: "Roboto", sans-serif;;
+}
+button , input{
 
+  font-family: "Roboto", sans-serif;;
 }
 body {
   color: #fff;
@@ -310,4 +313,95 @@ ul {
   background-color: black;
 
   border-radius: 25px;
+}
+
+
+
+
+
+
+body{
+	background: linear-gradient(-45deg, #23d5ab, #4E0EFF, #23d5ab, #4E0EFF);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+    height: 100vh;
+} 
+
+.form-title{
+  margin: 0.5vh;
+}
+
+.boxes{
+  background: rgba(255, 255, 255, 0.46);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4.9px);
+  -webkit-backdrop-filter: blur(4.9px);
+
+
+  max-width: 48vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin: 4vh;
+}
+button , input{
+  border-radius: 8px;
+  padding: 10px;
+  margin:0.5vh;
+  text-align: center;
+}
+/* .form-field{
+  margin: 0.5vh;
+} */
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
+
+ 
+#Authen{
+
+  background: rgba(255, 255, 255, 0.46);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4.9px);
+  -webkit-backdrop-filter: blur(4.9px);
+
+
+
+  color: black;
+	text-align: center;
+
+	/* padding-bottom: 10vh; */
+	/*Solves a problem in which the content is being cut when the div is smaller than its' wrapper:*/
+
+
+
+  width: 60%;
+  height: 50%;
+  overflow: auto;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+  
+  max-width: 50vh;
+	max-height: 30vh;
+	overflow: auto;
+
 }
