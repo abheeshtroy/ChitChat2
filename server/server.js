@@ -48,9 +48,9 @@ app.post('/register', (req, res) => {
 
   bcrypt.genSalt(10, async function (err, salt) {
     await bcrypt.hash(password, salt, (err, hash) => {
-      console.log(username)
-      console.log(password)
-      console.log(hash);
+      // console.log(username)
+      // console.log(password)
+      // console.log(hash);
       if (err) {
         console.log(`an error occured bruh: ${err}`)
         return
@@ -155,7 +155,7 @@ io.on("connection", (socket) => {
   socket.broadcast.emit("updateRooms", rooms);
 
   socket.on("message", (payload) => {
-    console.log(`Message from ${socket.id} : ${payload.message}`);
+    // console.log(`Message from ${socket.id} : ${payload.message}`);
     rooms.map((room) => {
       if (room.id === payload.room) {
         singleChat = { message: payload.message, writer: payload.socketId };
